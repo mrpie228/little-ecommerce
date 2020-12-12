@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    
+    <head>
+        {% block name %}
+        <title>E-commerce</title>
+        {% endblock name %}
+        <link rel="shortcut icon" type="image/ico" href="{% static 'favicon.ico' %}">
+        <link rel='stylesheet' type ='text/css' href="{% static 'css/main.css' %}">
+        {% block extrahead %}{% endblock %}
+        <meta name="viewport" content="wight= device-widht, initial-scale=1, maximu-scale=1, minimum-scale=1"/>
+        <script  type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+        </script>
+    </head>
+<body>
+<header>
+
+    <a><img onclick="redirect('{% url 'fake_store' %}')" wight = 50px height= 50px src="{% static 'images/sneakers_2.png' %}"></img></a>   
+    <a><img onclick="redirect('{% url 'fake_cart' %}')" wight = 50px height= 50px src="{% static 'images/cart.png' %}"></img></a>
+
+    <div class="search-bar">
+        <form method="get"><!--action="{% url 'search' %}"-->
+            
+            <input type="search" placeholder="Search something..." name ="search"></div>
+            <button onclick="redirect('{% url 'fake_search' %}')"></button>
+        </form>
+
+</header>
+
+    {% block content %}
+    <main class="swup" > </main>
+    {% endblock %}
+    <script  type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+    <script type="text/javascript">
+        var user= '{{request.user}}'
+
+        function getToken(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getToken('csrftoken');
+    </script>
+    <script>
+        function searh(url){
+            history.pushState(null, null, url.replace('f', 'Nike'));
+        }</script>
+    <script>
+        function redirect(url){
+            
+            
+           // $(".swup").html()
+           // history.pushState(null, null, url.replace('fake_', ''));
+
+            $.ajax({
+            type: "POST",
+            
+            headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken':csrftoken,},
+            url: url,
+            data: {
+            },
+            success: function(data) {
+            history.pushState(null, null, url.replace('fake_', ''));
+            history.replaceState({},"Сайт",url.replace('fake_', ''))
+            $(".swup").load(url);
+        }})
+        }
+    </script>
+
+    {% block morescripts %}
+    {% endblock morescripts %}
+</body>
+</html>

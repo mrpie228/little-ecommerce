@@ -1,0 +1,68 @@
+
+{% load static %}
+<link rel='stylesheet' type ='text/css' href="{% static 'css/cart.css' %}"> 
+<div class="main"> 
+  <h1>Shopping cart</h1>
+  <h2 class="sub-heading">Free shipping from $100!</h2>
+
+  <section class="shopping-cart">
+    <ol class="ui-list shopping-cart--list" id="shopping-cart--list">
+        {% for item in items %}
+        
+      <div id="shopping-cart--list-item-template" type="text/template">
+        
+        <li class="_grid shopping-cart--list-item">
+          <img style="z-index: -1;" width="900rm" src="{{item.product.image.url}}" alt="Item image" />
+          <div class="_column product-info">
+            
+            <h4 class="product-name">{{item.product.name}}</h4>
+            <p class="product-desc">{{item.product.description|truncatechars:150}}</p>
+            <div class="price product-single-price">{{item.product.price}}</div>
+            
+          </div>
+          
+          <div class="_column product-image" style="text-align: left;">
+            
+          </div>
+          <div class="_column product-modifiers" data-product-price="{{product.price}}">
+            <div class="_grid">
+              <button data-product="{{item.product.id}}" data-action="remove" class="_btn _column product-subtract update-cart">&minus;</button>
+              <div class="_column product-qty">{{item.quantity}}</div>
+              <button data-product="{{item.product.id}}" data-action="add" class="_btn _column product-plus update-cart" >&plus;</button>
+            </div>
+            <button class="_btn entypo-trash product-remove">Remove</button>
+            <div class="price product-total-price">{{item.get_total}}</div>
+          </div>
+
+        </li>
+      </div>
+      {% endfor %}
+    </ol>
+
+    <footer class="_grid cart-totals">
+      <div class="_column subtotal" id="subtotalCtr">
+        <div class="cart-totals-key">Subtotal</div>
+        <div class="cart-totals-value">${{order.get_cart_total}}</div>
+      </div>
+      <div class="_column shipping" id="shippingCtr">
+        <div class="cart-totals-key">Shipping</div>
+        <div class="cart-totals-value">Free</div>
+      </div>
+      <div class="_column taxes" id="taxesCtr">
+        <div class="cart-totals-key">Quantity</div>
+        <div class="cart-totals-value">{{order.get_total}}</div>
+      </div>
+      <div class="_column total" id="totalCtr">
+        <div class="cart-totals-key">Total</div>
+        <div class="cart-totals-value">${{order.get_cart_total}}</div>
+      </div>
+      <div class="_column checkout">
+        <button onclick="redirect('{% url 'fake_checkout' %}')" class="_btn checkout-btn entypo-forward">Checkout</button>
+      </div>
+    </footer>
+
+  </section>
+</main>
+    <script  type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+    
+

@@ -1,0 +1,26 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block name %}
+<title>Store</title>
+{% endblock name %}
+
+    
+{% block content %}
+<main class="swup" >
+<body >
+    <div class="products" > 
+    {% for product in products %}
+    <div class="product">
+      <span class="product__price">${{product.price}}</span>
+      <img class="product__image" src="{{product.image}}">
+      <h1 class="product__title">{{product.name}}</h1>
+      <hr />
+      <p>{{product.description}} </p>
+      <a data-product="{{product.id}}" data-action="add" class="product__btn btn update-cart">Add to cart</a>
+    </div>
+    {% endfor %}
+    </div>
+</body>
+</main>
+{% endblock content %}
