@@ -47,7 +47,7 @@ function updateUserOrder(producId,action){
     .then((update)=> {
         console.log(currentLocation.pathname)
         if (currentLocation.pathname == '/cart/'){
-            $(".swup").load("/cart");
+            $(".swup").load("/fake_cart");
         }
         //stop()
     })

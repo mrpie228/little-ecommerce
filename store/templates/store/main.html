@@ -16,14 +16,22 @@
 <body>
 <header>
 
-    <a><img onclick="redirect('{% url 'fake_store' %}')" wight = 50px height= 50px src="{% static 'images/sneakers_2.png' %}"></img></a>   
-    <a><img onclick="redirect('{% url 'fake_cart' %}')" wight = 50px height= 50px src="{% static 'images/cart.png' %}"></img></a>
+    <a href='{% url 'store' %}'><img wight = 50px height= 50px src="{% static 'images/sneakers_2.png' %}"></img></a>   
+    <a href='{% url 'cart' %}'><img wight = 50px height= 50px src="{% static 'images/cart.png' %}"></img></a>
 
-    <div class="search-bar">
-        <form method="get"><!--action="{% url 'search' %}"-->
+      {% if user.is_authenticated %}
+      <a href="{% url 'account_email' %}">Change E-mail</a>
+      <a href="{% url 'account_logout' %}">Sign Out</a>
+      {% else %}
+      <a href="{% url 'account_login' %}">Sign In</a>
+      <a href="{% url 'account_signup' %}">Sign Up</a>
+      {% endif %}
+
+   <div class="search-bar">
+        <form method="get" action='{% url 'search' %}'>
             
             <input type="search" placeholder="Search something..." name ="search"></div>
-            <button onclick="redirect('{% url 'fake_search' %}')"></button>
+            <button ></button>
         </form>
 
 </header>
@@ -31,7 +39,12 @@
     {% block content %}
     <main class="swup" > </main>
     {% endblock %}
-    <script  type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+    
+
+    {% block morescripts %}
+    {% endblock morescripts %}
+</body>
+<script  type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
     <script type="text/javascript">
         var user= '{{request.user}}'
@@ -53,35 +66,4 @@
     }
     const csrftoken = getToken('csrftoken');
     </script>
-    <script>
-        function searh(url){
-            history.pushState(null, null, url.replace('f', 'Nike'));
-        }</script>
-    <script>
-        function redirect(url){
-            
-            
-           // $(".swup").html()
-           // history.pushState(null, null, url.replace('fake_', ''));
-
-            $.ajax({
-            type: "POST",
-            
-            headers:{
-            'Content-Type': 'application/json',
-            'X-CSRFToken':csrftoken,},
-            url: url,
-            data: {
-            },
-            success: function(data) {
-            history.pushState(null, null, url.replace('fake_', ''));
-            history.replaceState({},"Сайт",url.replace('fake_', ''))
-            $(".swup").load(url);
-        }})
-        }
-    </script>
-
-    {% block morescripts %}
-    {% endblock morescripts %}
-</body>
 </html>
