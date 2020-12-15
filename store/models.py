@@ -1,12 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # Create your models here.
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null= True, blank=True)
     name = models.CharField(max_length=150,null=True)
     email = models.CharField(max_length=150,null=True)
     def __str__(self):
-        return self.name
+        return self.email
+
+@receiver(post_save, sender=User)
+def create_user_as_customer(sender, instance, created, **kwargs):
+    if created:
+        Customer.objects.create(user=instance,name=instance.username,email=instance.email)
+
+
+
+
 
 class Product(models.Model):
     name= models.CharField(max_length=150,null=True)
@@ -25,7 +36,7 @@ class Order(models.Model):
     transaction_id=models.CharField(max_length=200, null=True)
     def __str__(self):
         return str(self.id)
-    
+        
     @property
     def get_cart_total(self):
         orderitems = self.orderitem_set.all()
