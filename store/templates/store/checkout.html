@@ -7,4 +7,11 @@
 
 {% block content %}
 <h2>content</h2>
+{% for item in items %}
+{{item.product.name}}
+{{item.quantity}}
+{{item.get_total}}<br>
+
+{% endfor%}
+{{order.get_cart_total}}
 {% endblock content %}

@@ -11,12 +11,11 @@ for (i = 0; i < updateBtns.length; i++) {
 
         console.log('User:', user)
             if (user == "AnonymousUser"){
-                console.log('Not logged in')
-            }
+                  modal.style.display = "block";}
             else
             {
 
-                console.log('Logged in and sending data') 
+                console.log('Logged in and sending data')
                 updateUserOrder(productId,action)
             }
     })
@@ -36,13 +35,13 @@ function updateUserOrder(producId,action){
 
     .then((response) => {
         return response.json();
-        
+
     })
 
     .then((data) => {
         console.log('data', data);
-        
-        
+
+
     })
     .then((update)=> {
         console.log(currentLocation.pathname)

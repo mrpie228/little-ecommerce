@@ -8,28 +8,28 @@
 {% block extrahead %} <link rel='stylesheet' type ='text/css' href="{% static 'css/cart.css' %}"> {% endblock %}
 {% block content %}
 <main class="swup" class="transition-fade">
-<div class="main"> 
+<div class="main">
     <h1>Shopping cart</h1>
     <h2 class="sub-heading">Free shipping from $100!</h2>
-  
+
     <section class="shopping-cart">
       <ol class="ui-list shopping-cart--list" id="shopping-cart--list">
           {% for item in items %}
-          
+
         <div id="shopping-cart--list-item-template" type="text/template">
-          
+
           <li class="_grid shopping-cart--list-item">
             <img style="z-index: -1;" width="900rm" src="{{item.product.image.url}}" alt="Item image" />
             <div class="_column product-info">
-              
+
               <h4 class="product-name">{{item.product.name}}</h4>
               <p class="product-desc">{{item.product.description|truncatechars:150}}</p>
               <div class="price product-single-price">{{item.product.price}}</div>
-              
+
             </div>
-            
+
             <div class="_column product-image" style="text-align: left;">
-              
+
             </div>
             <div class="_column product-modifiers" data-product-price="{{product.price}}">
               <div class="_grid">
@@ -45,7 +45,7 @@
         </div>
         {% endfor %}
       </ol>
-  
+
       <footer class="_grid cart-totals">
         <div class="_column subtotal" id="subtotalCtr">
           <div class="cart-totals-key">Subtotal</div>
@@ -67,7 +67,7 @@
           <a href='{% url 'checkout' %}'><button  class="_btn checkout-btn entypo-forward">Checkout</button> </a>
         </div>
       </footer>
-  
+
     </section>
   </main>
 {% endblock content %}
