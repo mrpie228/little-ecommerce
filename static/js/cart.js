@@ -11,7 +11,8 @@ for (i = 0; i < updateBtns.length; i++) {
 
         console.log('User:', user)
             if (user == "AnonymousUser"){
-                  modal.style.display = "block";}
+                  addCookieItem(productId,action)
+                }
             else
             {
 
@@ -20,6 +21,8 @@ for (i = 0; i < updateBtns.length; i++) {
             }
     })
 }
+
+
 
 
 function updateUserOrder(producId,action){
@@ -48,6 +51,30 @@ function updateUserOrder(producId,action){
         if (currentLocation.pathname == '/cart/'){
             $(".swup").load("/fake_cart");
         }
-        //stop()
+
     })
+}
+
+
+function addCookieItem(productId, action){
+	console.log('User is not authenticated')
+
+	if (action == 'add'){
+		if (cart[productId] == undefined){
+		cart[productId] = {'quantity':1}
+
+		}else{
+			cart[productId]['quantity'] += 1
+		}
+	}
+
+	if (action == 'remove'){
+		cart[productId]['quantity'] -= 1
+
+		if (cart[productId]['quantity'] <= 0){
+			console.log('Item should be deleted')
+			delete cart[productId];
+		}
+	}
+	console.log('CART:', cart)
 }
