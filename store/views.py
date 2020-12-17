@@ -3,6 +3,7 @@ from .models import *
 from django.http import JsonResponse
 import simplejson as json
 from django.views.generic.list import ListView
+from .utils import cookieCart, cartData, guestOrder
 # Create your views here.
 def store(request):
     products= Product.objects.all()
@@ -16,8 +17,33 @@ def cart(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items= order.orderitem_set.all()
     else:
+        try:
+            cart= json.loads(request.COOKIES['cart'])
+        except:
+            cart={}
+
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
+        cartItems= order['get_cart_items']
+        for i in cart:
+            cartItems+=cart[i]['quantity']
+            product= Product.objects.get(id=i)
+            total = (product.price * cart[i]['quantity'])
+            order['get_cart_total']+=total
+            order['get_cart_items']+=cart[i]['quantity']
+
+            item={
+                'product':{
+                    "id": product.id,
+                    "name": product.name,
+                    "price": product.price,
+                    "image":product.image,
+                    },
+                'quantity':cart[i]['quantity'],
+                'get_total':total,
+                }
+            items.append(item)
+
     context={'items':items,'order':order}
     return render(request, 'store/cart.html', context)
 
@@ -28,8 +54,33 @@ def fake_cart(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items= order.orderitem_set.all()
     else:
+        try:
+            cart= json.loads(request.COOKIES['cart'])
+        except:
+            cart={}
+
         items = []
         order = {'get_cart_total': 0, 'get_cart_items': 0}
+        cartItems= order['get_cart_items']
+        for i in cart:
+            cartItems+=cart[i]['quantity']
+            product= Product.objects.get(id=i)
+            total = (product.price * cart[i]['quantity'])
+            order['get_cart_total']+=total
+            order['get_cart_items']+=cart[i]['quantity']
+
+            item={
+                'product':{
+                    "id": product.id,
+                    "name": product.name,
+                    "price": product.price,
+                    "image":product.image,
+                    },
+                'quantity':cart[i]['quantity'],
+                'get_total':total,
+                }
+            items.append(item)
+
     context={'items':items,'order':order}
     return render(request, 'store/fake_cart.html', context)
 
@@ -67,7 +118,7 @@ def updateItem(request):
 
     if orderItem.quantity <=0:
         orderItem.delete()
-    
+
     return JsonResponse(data, safe=False)
 
 

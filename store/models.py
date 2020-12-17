@@ -8,7 +8,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=150,null=True)
     email = models.EmailField(max_length=150,null=True)
     def __str__(self):
-        return self.email
+        return str(self.email)
 
 @receiver(post_save, sender=User)
 def create_user_as_customer(sender, instance, created, **kwargs):

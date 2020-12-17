@@ -77,4 +77,9 @@ function addCookieItem(productId, action){
 		}
 	}
 	console.log('CART:', cart)
+	document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+  if (currentLocation.pathname == '/cart/'){
+      $(".swup").load("/fake_cart");
+  }
+	//location.reload()
 }
