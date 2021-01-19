@@ -2,7 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-# Create your models here.
+
+
+
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null= True, blank=True)
     name = models.CharField(max_length=150,null=True)
@@ -17,8 +19,6 @@ def create_user_as_customer(sender, instance, created, **kwargs):
 
 
 
-
-
 class Product(models.Model):
     name= models.CharField(max_length=150,null=True)
     image = models.ImageField(blank=True,null=True,upload_to = 'static/images', )
@@ -28,6 +28,8 @@ class Product(models.Model):
     quantity_in_stock=models.FloatField(default=0)
     def __str__(self):
         return self.name
+
+
 
 class Order(models.Model):
     customer=models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
@@ -49,6 +51,8 @@ class Order(models.Model):
         total= sum([item.quantity for item in orderitems])
         return total
 
+
+
 class OrderItem(models.Model):
     product=models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
     order=models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
@@ -59,6 +63,8 @@ class OrderItem(models.Model):
     def get_total(self):
         total= self.product.price * self.quantity
         return total
+
+
 
 class ShippingAdress(models.Model):
     customer=models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)

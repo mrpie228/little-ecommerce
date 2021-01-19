@@ -4,7 +4,9 @@ from django.http import JsonResponse
 import simplejson as json
 from django.views.generic.list import ListView
 from .utils import cookieCart, cartData, guestOrder
-# Create your views here.
+
+
+
 def store(request):
     products= Product.objects.all()
     context={'products':products}
@@ -121,17 +123,6 @@ def updateItem(request):
 
     return JsonResponse(data, safe=False)
 
-
-#class Search(ListView):
- #   paginate_by=3
-  #  def get_queryset(self):
-   #     search_products = Product.objects.filter(name=self.request.GET.get("q"))
-    #    return search_products
-#
- #   def get_context_data(self, *args, **kwargs):
-  #      context = super().get_context_data(*args, **kwargs)
-   #     context["q"] = self.request.GET.get("q")
-    #    return context
 
 def search_list(request):
     search_query = request.GET.get('search','')
