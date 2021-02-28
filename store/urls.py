@@ -6,13 +6,13 @@ urlpatterns = [
     path('', views.store, name ="store"),
 
 
-    path('cart/', views.cart, name = "cart"),
+    re_path(r'^cart/$', views.cart, name = "cart"),
     path('fake_cart/', views.fake_cart, name = "fake_cart"),
 
-    path('checkout/',views.checkout, name= "checkout"),
+    re_path(r'^checkout/$',views.checkout, name= "checkout"),
 
 
-    path('search',views.search_list, name= "search"),
+    re_path(r'^search/$',views.search_list, name= "search"),
 
     
     re_path(r'update_item/', views.updateItem, name = "update_item"),
